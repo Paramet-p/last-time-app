@@ -27,8 +27,30 @@ class ListItems extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     title: Text(items[index].name),
-                    subtitle: Text(
-                        'ต้องทำทุก ${items[index].cycle.toString()} วัน  เหลือเวลาอีก ${items[index].leftDay} วัน'),
+                    subtitle: items[index].leftDay < 0 ?
+                    //Text('ต้องทำทุก ${items[index].cycle.toString()} วัน  เกินกำหนดไป ${items[index].leftDay.abs()} วัน') : 
+                    RichText(
+                      text: TextSpan(
+                        text: 'ต้องทำทุก ${items[index].cycle.toString()} วัน  ',
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'เกินกำหนดไป ${items[index].leftDay.abs()} วัน',
+                            style: const TextStyle(color: Colors.red)
+                          )
+                        ]
+                      ),
+                    ) :
+                    RichText(
+                      text: TextSpan(
+                        text: 'ต้องทำทุก ${items[index].cycle.toString()} วัน  ',
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'เหลือเวลาอีก ${items[index].leftDay} วัน',
+                            style: const TextStyle(color: Colors.blueGrey)
+                          )
+                        ]
+                      ),
+                    ),
                     leading: IconButton(
                       onPressed: () {
                         debugPrint(items[index].name);
